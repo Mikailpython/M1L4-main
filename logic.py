@@ -12,6 +12,7 @@ class Pokemon:
         self.img = self.get_img()
         self.name = self.get_name()
         self.ability = self.get_ability()
+        self.version = self.get_version()
 
         Pokemon.pokemons[pokemon_trainer] = self
 
@@ -43,11 +44,20 @@ class Pokemon:
             return (data['forms'][0]['name'])
         else:
             return "Pikachu"
+        
+    def get_version(self):
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.pokemon_number}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            return (data["game_indices"]["version"]["name"])
+        else:
+            return "Pikachu"
 
 
     # Метод класса для получения информации
     def info(self):
-        return f"Имя твоего покеомона: {self.name}, фотография покемона:{self.img}, способность:{self.ability}"
+        return f"Имя твоего покеомона: {self.name}, способность:{self.ability}, версия:{self.version}"
 
     # Метод класса для получения картинки покемона
     def show_img(self):
